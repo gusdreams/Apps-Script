@@ -1,0 +1,61 @@
+function getQuadernoInvoices() {
+  const apiKey = 'sk_live_WR_XCJQaMwZoctaqZHMz'; // Reemplaza con tu API Key de Quaderno
+  const url = 'https://dianaarbol.quadernoapp.com/api/invoices'; // Reemplaza con tu dominio de Quaderno
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Basic ' + Utilities.base64Encode(apiKey + ':'),
+      'Accept': 'application/json'
+    }
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(url, options);
+    const json = response.getContentText();
+    const data = JSON.parse(json);
+
+    // Imprime la respuesta completa en los registros
+    console.log(data);
+
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    sheet.clear(); // Limpia la hoja antes de escribir nuevos datos
+
+     // Escribe los encabezados
+    sheet.appendRow([
+      'Fecha de Factura',
+      'Número',
+      'País',
+      'Moneda',
+      'Subtotal',
+      'Comision',
+      'Total',
+      'Estado'
+    ]);
+
+    // Escribe los datos de las facturas
+    data.forEach(invoice => {
+      const issueDate = invoice.issue_date || 'N/A'; // Fecha de factura
+      const invoiceNumber = invoice.number || 'N/A'; // Número de factura
+      const country = invoice.country || 'N/A'; // País
+      const currency = invoice.currency || 'N/A'; // Moneda
+      const subtotal = (parseFloat(invoice.subtotal_cents) / 100 || 0).toLocaleString('es-ES', { minimumFractionDigits: 2 });
+      const processorFee = (parseFloat(invoice.processor_fee_cents) / 100 || 0).toLocaleString('es-ES', { minimumFractionDigits: 2 });
+      const total = (parseFloat(invoice.total_cents) / 100 || 0).toLocaleString('es-ES', { minimumFractionDigits: 2 });
+      const state = invoice.state || 'N/A'; // Estado
+
+      sheet.appendRow([
+        issueDate,
+        invoiceNumber,
+        country,
+        currency,
+        subtotal,
+        processorFee,
+        total,
+        state
+      ]);
+    });
+  } catch (error) {
+    console.error('Error al obtener las facturas:', error);
+  }
+}
