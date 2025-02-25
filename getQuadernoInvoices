@@ -1,6 +1,6 @@
 function getQuadernoInvoices() {
-  const apiKey = 'sk_live_WR_XCJQaMwZoctaqZHMz'; // Reemplaza con tu API Key de Quaderno
-  const url = 'https://dianaarbol.quadernoapp.com/api/invoices'; // Reemplaza con tu dominio de Quaderno
+  const apiKey = '***'; // Reemplaza con tu API Key de Quaderno
+  const url = '***'; // Reemplaza con tu dominio de Quaderno
 
   const options = {
     method: 'GET',
@@ -18,7 +18,7 @@ function getQuadernoInvoices() {
     // Imprime la respuesta completa en los registros
     console.log(data);
 
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("API QUADERNO");
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("***"); // Reemplaza con tu hoja
     sheet.clear(); // Limpia la hoja antes de escribir nuevos datos
 
      // Escribe los encabezados
