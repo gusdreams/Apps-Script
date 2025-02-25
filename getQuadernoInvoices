@@ -18,7 +18,7 @@ function getQuadernoInvoices() {
     // Imprime la respuesta completa en los registros
     console.log(data);
 
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("API QUADERNO");
     sheet.clear(); // Limpia la hoja antes de escribir nuevos datos
 
      // Escribe los encabezados
